@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 const express = require('express');
 const logger = require('../logger');
 const { v4: uuid } = require('uuid');
@@ -96,17 +97,14 @@ bookmarkRouter
   .delete(validateBearerToken, (req, res) => {
     // implementation logic here
     const { id } = req.params;
-    const index = bookmarks.findIndex(b => b.id === id);
-    if(index === -1) {
+    const index = bookmarks.findIndex((b) => b.id === id);
+    if (index === -1) {
       logger.error('Invalid delete request');
-      return res.status(400)
-      .send('Bookmark not found')
+      return res.status(400).send('Bookmark not found');
     }
     console.log(index, bookmarks);
     bookmarks.splice(index, 1);
-    res
-    .status(204)
-    .end();
+    res.status(204).end();
     console.log(index, bookmarks);
   });
 
