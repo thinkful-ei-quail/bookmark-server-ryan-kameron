@@ -100,12 +100,14 @@ bookmarkRouter
     if(index === -1) {
       logger.error('Invalid delete request');
       return res.status(400)
-      .send('invalid delete request')
+      .send('Bookmark not found')
     }
+    console.log(index, bookmarks);
     bookmarks.splice(index, 1);
     res
-    .status(200)
+    .status(204)
     .end();
+    console.log(index, bookmarks);
   });
 
 module.exports = bookmarkRouter;
