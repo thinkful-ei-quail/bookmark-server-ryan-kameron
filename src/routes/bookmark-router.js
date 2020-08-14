@@ -4,6 +4,7 @@ const { v4: uuid } = require('uuid');
 
 const { bookmarks } = require('../store');
 const { restart } = require('nodemon');
+const validateBearerToken = require('../validateBearer');
 
 const bookmarkRouter = express.Router();
 const bodyParser = express.json();
@@ -14,7 +15,7 @@ bookmarkRouter
     // implementation logic here
     res.json(bookmarks);
   })
-  .post(bodyParser, (req, res) => {
+  .post(bodyParser, validateBearerToken, (req, res) => {
     //implementation logic here
     const { title, url, rating, desc = '' } = req.body;
 
@@ -92,11 +93,19 @@ bookmarkRouter
     }
     res.json(bookmark);
   })
-  .delete((req, res) => {
+  .delete(validateBearerToken, (req, res) => {
     // implementation logic here
     const { id } = req.params;
-
-    //
+    const index = bookmarks.findIndex(b => b.id === id);
+    if(index === -1) {
+      logger.error('Invalid delete request');
+      return res.status(400)
+      .send('invalid delete request')
+    }
+    bookmarks.splice(index, 1);
+    res
+    .status(200)
+    .end();
   });
 
 module.exports = bookmarkRouter;
