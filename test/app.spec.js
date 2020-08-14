@@ -12,9 +12,9 @@ describe('Bookmarks', () => {
     store.bookmarks = bookmarksCopy;
   });
 
-  describe(`Unauthorized requests`, () => {
+  describe('Unauthorized requests', () => {
 
-    it(`responds with 401 Unauthorized for POST /bookmark`, () => {
+    it('responds with 401 Unauthorized for POST /bookmark', () => {
       return supertest(app)
         .post('/bookmark')
         .send({ title: 'test-title', url: 'http://some.thing.com', rating: 1 })
@@ -22,7 +22,7 @@ describe('Bookmarks', () => {
     });
 
 
-    it(`responds with 401 Unauthorized for DELETE /bookmark/:id`, () => {
+    it('responds with 401 Unauthorized for DELETE /bookmark/:id', () => {
       const aBookmark = store.bookmarks[1];
       return supertest(app)
         .delete(`/bookmark/${aBookmark.id}`)
@@ -50,7 +50,7 @@ describe('Bookmarks', () => {
 
     it(`returns 400 when bookmark doesn't exist`, () => {
       return supertest(app)
-        .get(`/bookmark/doesnt-exist`)
+        .get('/bookmark/doesnt-exist')
         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
         .expect(400, 'Bookmark not found');
     });
@@ -71,76 +71,76 @@ describe('Bookmarks', () => {
         });
     });
 
-    it(`returns 400 whe bookmark doesn't exist`, () => {
+    it('returns 400 whe bookmark does not exist', () => {
       return supertest(app)
-        .delete(`/bookmark/doesnt-exist`)
+        .delete('/bookmark/doesnt-exist')
         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
         .expect(400, 'Bookmark not found');
     });
   });
 
   describe('POST /bookmark', () => {
-    it(`responds with 400 missing 'title' if not supplied`, () => {
+    it('responds with 400 missing title if not supplied', () => {
       const newBookmarkMissingTitle = {
         // title: 'test-title',
         url: 'https://test.com',
         rating: 1,
       };
       return supertest(app)
-        .post(`/bookmark`)
+        .post('/bookmark')
         .send(newBookmarkMissingTitle)
         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-        .expect(400, `Title is required`);
+        .expect(400, 'Title is required');
     });
 
-    it(`responds with 400 missing 'url' if not supplied`, () => {
+    it('responds with 400 missing url if not supplied', () => {
       const newBookmarkMissingUrl = {
         title: 'test-title',
         rating: 1,
       };
       return supertest(app)
-        .post(`/bookmark`)
+        .post('/bookmark')
         .send(newBookmarkMissingUrl)
         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-        .expect(400, `URL is required`);
+        .expect(400, 'URL is required');
     });
 
-    it(`responds with 400 missing 'rating' if not supplied`, () => {
+    it('responds with 400 missing rating if not supplied', () => {
       const newBookmarkMissingRating = {
         title: 'test-title',
         url: 'https://test.com',
       };
       return supertest(app)
-        .post(`/bookmark`)
+        .post('/bookmark')
         .send(newBookmarkMissingRating)
         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-        .expect(400, `Rating is required`);
+        .expect(400, 'Rating is required');
     });
 
-    it(`responds with 400 invalid 'rating' if not between 0 and 5`, () => {
+    it('responds with 400 invalid rating if not between 0 and 5', () => {
       const newBookmarkInvalidRating = {
         title: 'test-title',
         url: 'https://test.com',
         rating: 'invalid',
       };
       return supertest(app)
-        .post(`/bookmark`)
+        .post('/bookmark')
         .send(newBookmarkInvalidRating)
         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
         .expect(400, 'rating must be a number');
     });
 
-    it(`responds with 400 invalid 'url' if not a valid URL`, () => {
+    it('responds with 400 invalid url if not a valid URL', () => {
       const newBookmarkInvalidUrl = {
         title: 'test-title',
         url: 'htp://invalid-url',
         rating: 1,
       };
       return supertest(app)
-        .post(`/bookmark`)
+        .post('/bookmark')
         .send(newBookmarkInvalidUrl)
         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-        .expect(400, `URL must be valid`);
+        .expect(400, 'URL must be valid');
     });
 
     it('adds a new bookmark to the store', () => {
@@ -151,7 +151,7 @@ describe('Bookmarks', () => {
         rating: 1,
       };
       return supertest(app)
-        .post(`/bookmark`)
+        .post('/bookmark')
         .send(newBookmark)
         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
         .expect(201)
