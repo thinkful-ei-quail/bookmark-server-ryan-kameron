@@ -134,3 +134,6 @@
 {"message":"New bookmark with 37fa808b-dc80-4916-800f-292aba0a2beb created","level":"info"}
 {"message":"url must be valid","level":"error"}
 {"message":"New bookmark with b4b897ec-18d5-4a44-bf22-c6bb7c30a6f1 created","level":"info"}
+{"message":"New bookmark with 3cca27c7-5749-488b-9e0b-48ebb62d2db0 created","level":"info"}
+{"message":"Bookmark with id 12345678 not found.","level":"error"}
+{"message":"Bookmark with id 1234567 not found.","level":"error"}
